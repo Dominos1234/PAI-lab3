@@ -6,7 +6,7 @@
  <script async src="form_check.js"></script>
  <link rel="stylesheet" type="text/css" href="style.css" title="Arkusz stylów CSS">
 </head>
-<body onload='alterRows(1,getElementsByTagName("tr"));'>
+<body onload="alterRows(1,document.getElementsByTagName('tr')[0]);">
 
 	<table >
 		 <tbody >
@@ -52,7 +52,7 @@
 		 <tr>
 		 <td>Pozostało <span id="zostalo">150</span> znaków</td>
 		 </tr>
-		 <tr><td colspan="2"><input type="button" value="Prześlij" onclick="validate(this.form);"></td></tr>
+		 <tr><td colspan="2"><input type="button" value="Prześlij" onclick="return (validate(this.form));"></td></tr>
 		 </table>
 	 </form>
 </body>
