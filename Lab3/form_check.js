@@ -16,41 +16,37 @@ function checkString(str, msg){
 	else return true;
 }
 
-function checkStringAndFocus(obj, msg) {
-	 let str = obj.value;
-	 let errorFieldName = "e_" + obj.name.substr(2, obj.name.length);
-	 if (isWhiteSpaceOrEmpty(str)) {
-		 document.getElementById(errorFieldName).innerHTML = msg;
-		 obj.focus();
-		 return false;
+function checkStringAndFocus(obj, msg, fun) {
+	 if (fun == 0){ //checkStringAndFocus
+		 let str = obj.value;
+		 let errorFieldName = "e_" + obj.name.substr(2, obj.name.length);
+		 if (isWhiteSpaceOrEmpty(str)) {
+			 document.getElementById(errorFieldName).innerHTML = msg;
+			 obj.focus();
+			 return false;
+		 }
+		 else {
+			document.getElementById(errorFieldName).innerHTML = "";
+			obj.focus();
+			return true;
+		 }
 	 }
-	 else {
-		document.getElementById(errorFieldName).innerHTML = "";
-		obj.focus();
-		return true;
+	 else{ //checkEmailAndFocus
+		 let email = /^[a-zA-Z_0-9\.]+@[a-zA-Z_0-9\.]+\.[a-zA-Z][a-zA-Z]+$/;
+		 let str = obj.value;
+		 let errorFieldName = "e_" + obj.name.substr(2, obj.name.length);
+		 if (email.test(str)){
+			 document.getElementById(errorFieldName).innerHTML = "";
+			 obj.focus();
+			 return true;
+		 }
+		 else {
+			 document.getElementById(errorFieldName).innerHTML = msg;
+			 obj.focus();
+			 return false;
+		}
 	 }
 }
-
-
-function checkEmailAndFocus(obj,msg) {
-	 let email = /^[a-zA-Z_0-9\.]+@[a-zA-Z_0-9\.]+\.[a-zA-Z][a-zA-Z]+$/;
-	 let str = obj.value;
-	 let errorFieldName = "e_" + obj.name.substr(2, obj.name.length);
-	 if (email.test(str)){
-		 document.getElementById(errorFieldName).innerHTML = "";
-		 obj.focus();
-		 return true;
-	 }
-	 else {
-		 document.getElementById(errorFieldName).innerHTML = msg;
-		 obj.focus();
-		 return false;
-	}
-}
-
-function checkAndFocus(obj, msg, fun){
-	fun(obj,msg);
-	}
 
 
 function showElement(e) {
@@ -104,10 +100,12 @@ function swapRows(b) {
 }
 
 function validate(formularz){
-	checkAndFocus(formularz.elements["f_imie"],"Podaj imię!", checkStringAndFocus);
-	checkAndFocus(formularz.elements["f_nazwisko"],"Podaj nazwisko!", checkStringAndFocus);
-	checkAndFocus(formularz.elements["f_kod"],"Podaj kod pocztowy!", checkStringAndFocus);
-	checkAndFocus(formularz.elements["f_miasto"],"Podaj miasto!", checkStringAndFocus);
-	checkAndFocus(formularz.elements["f_ulica"],"Podaj ulicę!", checkStringAndFocus);
-	checkAndFocus(formularz.elements["f_email"], "Podaj właściwy email!", checkEmailAndFocus);
+	let ret = true
+	if(checkStringAndFocus(formularz.elements["f_imie"],"Podaj imię!", 0)==false) ret = false;
+	if(checkStringAndFocus(formularz.elements["f_nazwisko"],"Podaj nazwisko!", 0)==false) ret = false;
+	if(checkStringAndFocus(formularz.elements["f_kod"],"Podaj kod pocztowy!", 0)==false) ret = false;
+	if(checkStringAndFocus(formularz.elements["f_miasto"],"Podaj miasto!", 0)==false) ret = false;
+	if(checkStringAndFocus(formularz.elements["f_ulica"],"Podaj ulicę!", 0)==false) ret = false;
+	if(checkStringAndFocus(formularz.elements["f_email"], "Podaj właściwy email!", 1)==false) ret = false;
+	return ret;
 }
